@@ -2,6 +2,8 @@ import core.Game;
 import players.*;
 import players.mcts.MCTSParams;
 import players.mcts.MCTSPlayer;
+import players.mcts_v2.mcts.MCTSParams_V2;
+import players.mcts_v2.mcts.MCTSPlayer_V2;
 import players.rhea.RHEAPlayer;
 import players.rhea.utils.Constants;
 import players.rhea.utils.RHEAParams;
@@ -33,7 +35,7 @@ public class Run {
 
         //default
         if(args.length == 0)
-            args = new String[]{"0", "1", "1", "-1", "2", "3", "4", "5"};
+            args = new String[]{"0", "10", "4", "-1", "6", "7", "4", "5"};
 
         if(args.length != 8) {
             printHelp();
@@ -122,6 +124,23 @@ public class Run {
                         p = new MCTSPlayer(seed, playerID++, mctsParams);
                         playerStr[i-4] = "MCTS";
                         break;
+                    case 6:
+                        p = new RandomPlayerTest(seed, playerID++);
+                        playerStr[i-4] = "RandomTest";
+                        break;
+                    case 7:
+                        MCTSParams_V2 mctsParams_v2 = new MCTSParams_V2();
+                        mctsParams_v2.stop_type = mctsParams_v2.STOP_ITERATIONS;
+                        mctsParams_v2.num_iterations = 200;
+                        mctsParams_v2.rollout_depth = 12;
+                        mctsParams_v2.uct_method = mctsParams_v2.UCT_UCB1;
+                        mctsParams_v2.safe_place_method = mctsParams_v2.SAFE_PLACE_DEFAULT;
+                        mctsParams_v2.heuristic_method = mctsParams_v2.CUSTOM_HEURISTIC;
+                        mctsParams_v2.uctBias = 1.0;
+                        mctsParams_v2.progressiveUnpruningEnable = true;
+
+                        p = new MCTSPlayer_V2(seed, playerID++, mctsParams_v2);
+                        playerStr[i-4] = "MCV2";
                     default:
                         System.out.println("WARNING: Invalid agent ID: " + agentType );
                 }

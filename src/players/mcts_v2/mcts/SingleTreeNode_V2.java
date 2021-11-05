@@ -10,8 +10,8 @@ import utils.Types;
 import utils.Utils;
 import utils.Vector2d;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SingleTreeNode_V2
 {
@@ -32,6 +32,8 @@ public class SingleTreeNode_V2
 
     private GameState rootState;
     private StateHeuristic rootStateHeuristic;
+
+    private Comparator<SingleTreeNode_V2> comparator = new NodeComparator();
 
     SingleTreeNode_V2(MCTSParams_V2 p, Random rnd, int num_actions, Types.ACTIONS[] actions) {
         this(p, null, -1, rnd, num_actions, actions, 0, null);
@@ -168,15 +170,54 @@ public class SingleTreeNode_V2
     private SingleTreeNode_V2 uct(GameState state) {
         SingleTreeNode_V2 selected = null;
         double bestValue = -Double.MAX_VALUE;
-        for (SingleTreeNode_V2 child : this.children)
+        double sumA = 0, varA = 0, meanA;
+        double[] scores;
+        double turnedTerm = 1;
+        double biasTerm = 0;
+        if (params.uct_method == params.UCT_UCB1_TURNED){
+            scores = new double[this.children.length];
+            int i = 0;
+            for (var child: this.children){
+                scores[i++] = child.totValue;
+                sumA += child.totValue;
+            }
+            meanA = sumA / this.children.length;
+            for (double score : scores) {
+                varA += Math.pow(score - meanA, 2);
+            }
+            varA /= (this.children.length - 1);
+
+        }
+        List<SingleTreeNode_V2> avalibleChildren;
+        if (params.progressiveUnpruningEnable && nVisits > params.progressiveUnpruningT){
+            int k = params.progressiveUnpruningKInit;
+            for (int i = 0;;){
+                   if (nVisits > params.progressiveUnpruningA * Math.pow(params.progressiveUnpruningB, i++)){
+                       k += 1;
+                   } else {
+                       break;
+                   }
+            }
+            avalibleChildren = Arrays.stream(this.children).sorted(comparator.reversed()).limit(k).collect(Collectors.toList());
+        } else {
+            avalibleChildren = Arrays.stream(this.children).collect(Collectors.toList());
+        }
+
+        for (SingleTreeNode_V2 child : avalibleChildren)
         {
             double hvVal = child.totValue;
             double childValue =  hvVal / (child.nVisits + params.epsilon);
 
             childValue = Utils.normalise(childValue, bounds[0], bounds[1]);
 
-            double uctValue = childValue +
-                    params.K * Math.sqrt(Math.log(this.nVisits + 1) / (child.nVisits + params.epsilon));
+            if (params.uct_method == params.UCT_UCB1_TURNED){
+                turnedTerm = Math.min(0.25, varA + (2 * Math.log(this.nVisits + 1) / (child.nVisits + params.epsilon)));
+            }
+            if (params.uctBias > 0){
+                biasTerm = childValue / (1 + (child.nVisits + params.epsilon)) * params.uctBias;
+            }
+
+            double uctValue = childValue + params.K * Math.sqrt(Math.log(this.nVisits + 1) / (child.nVisits + params.epsilon) * turnedTerm + biasTerm);
 
             uctValue = Utils.noise(uctValue, params.epsilon, this.m_rnd.nextDouble());     //break ties randomly
 
@@ -213,7 +254,8 @@ public class SingleTreeNode_V2
 
     private int safeRandomAction(GameState state)
     {
-        if (state.getAliveAgentIDs().length > 2) {
+        if (params.safe_place_method == params.SAFE_PLACE_ADVANCED ||
+                (params.safe_place_method == params.SAFE_PLACE_EARLY_STOP && state.getAliveAgentIDs().length > 2)) {
             ArrayList<Types.ACTIONS> filted_actions = CarefulMoveFilter.get_filtered_actions(state);
             Types.ACTIONS rand_act = filted_actions.get(m_rnd.nextInt(filted_actions.size()));
             for (int i = 0; i < actions.length; i++) {
@@ -352,4 +394,12 @@ public class SingleTreeNode_V2
 
         return false;
     }
+
+    class NodeComparator implements Comparator<SingleTreeNode_V2> {
+        @Override
+        public int compare(SingleTreeNode_V2 o1, SingleTreeNode_V2 o2) {
+            return Double.compare(o1.totValue / (o1.nVisits + params.epsilon), o2.totValue / (o2.nVisits + params.epsilon));
+        }
+    }
 }
+
