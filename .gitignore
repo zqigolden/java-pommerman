@@ -2,7 +2,7 @@
 \.DS_Store
 
 \.idea/
-\out/
+\out/production/
 *.iml
 
 res/gamelogs/json/
