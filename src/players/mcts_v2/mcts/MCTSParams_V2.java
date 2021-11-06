@@ -60,6 +60,7 @@ public class MCTSParams_V2 implements ParameterSet {
             case "heuristic_method": heuristic_method = (int) value; break;
             case "safe_place_method": safe_place_method = (int) value; break;
             case "uct_method": uct_method = (int) value; break;
+            case "uct_bias": uctBias = (double) value; break;
         }
     }
 
@@ -71,6 +72,7 @@ public class MCTSParams_V2 implements ParameterSet {
             case "heuristic_method": return heuristic_method;
             case "safe_place_method": return safe_place_method;
             case "uct_method": return uct_method;
+            case "uct_bias": return uctBias;
         }
         return null;
     }
