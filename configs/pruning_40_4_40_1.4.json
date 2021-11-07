@@ -3,7 +3,7 @@
     "num_iterations": 200,
     "progressiveUnpruningA": 40,
     "progressiveUnpruningB": 1.4,
-    "progressiveUnpruningEnable": "false",
+    "progressiveUnpruningEnable": "true",
     "progressiveUnpruningKInit": 4,
     "progressiveUnpruningT": 40,
     "rollout_depth": 12,

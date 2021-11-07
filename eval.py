@@ -43,6 +43,7 @@ with open("configs/default.json") as f:
         data = json.load(f)
 
 for t, k, a, b in product(T, Kinit, A, B):
+    data["progressiveUnpruningEnable"] = 'true'
     data['progressiveUnpruningT'] = t
     data['progressiveUnpruningKInit'] = k
     data['progressiveUnpruningA'] = a
