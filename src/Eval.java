@@ -1,21 +1,16 @@
-import com.google.gson.JsonObject;
 import core.Game;
 import players.*;
 import players.mcts.MCTSParams;
 import players.mcts.MCTSPlayer;
-import players.mcts_v2.mcts.MCTSParams_V2;
-import players.mcts_v2.mcts.MCTSPlayer_V2;
+import players.mcts_v2.MCTSParams_V2;
+import players.mcts_v2.MCTSPlayer_V2;
 import players.rhea.RHEAPlayer;
 import players.rhea.utils.Constants;
 import players.rhea.utils.RHEAParams;
 import utils.*;
 
 
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.lang.reflect.Field;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Random;
 

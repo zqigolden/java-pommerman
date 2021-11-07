@@ -1,4 +1,4 @@
-package players.mcts_v2.mcts;
+package players.mcts_v2;
 
 import players.optimisers.ParameterSet;
 import utils.Pair;

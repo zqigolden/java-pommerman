@@ -1,7 +1,7 @@
 package players;
 
 import core.GameState;
-import players.careful.CarefulMoveFilter;
+import players.mcts_v2.careful.CarefulMoveFilter;
 import utils.Types;
 
 import java.util.ArrayList;

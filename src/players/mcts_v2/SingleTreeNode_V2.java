@@ -1,10 +1,10 @@
-package players.mcts_v2.mcts;
+package players.mcts_v2;
 
 import core.GameState;
-import players.careful.CarefulMoveFilter;
 import players.heuristics.AdvancedHeuristic;
 import players.heuristics.CustomHeuristic;
 import players.heuristics.StateHeuristic;
+import players.mcts_v2.careful.CarefulMoveFilter;
 import utils.ElapsedCpuTimer;
 import utils.Types;
 import utils.Utils;

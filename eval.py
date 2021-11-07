@@ -31,3 +31,20 @@ for k, vs in options.items():
     for v in vs:
         data[k] = v
         json.dump(data, open(f'configs/ctl_{k}_{v}.json', 'w'), indent=4)
+
+from itertools import product
+
+T = [20, 30, 40]
+Kinit = [2, 3, 4]
+A = [40, 50, 60]
+B = [1.2, 1.3, 1.4]
+
+with open("configs/default.json") as f:
+        data = json.load(f)
+
+for t, k, a, b in product(T, Kinit, A, B):
+    data['progressiveUnpruningT'] = t
+    data['progressiveUnpruningKInit'] = k
+    data['progressiveUnpruningA'] = a
+    data['progressiveUnpruningB'] = b
+    json.dump(data, open(f'configs/pruning_{t}_{k}_{a}_{b}.json', 'w'), indent=4)

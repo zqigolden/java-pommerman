@@ -1,0 +1,13 @@
+{
+    "heuristic_method": "CUSTOM_HEURISTIC",
+    "num_iterations": 200,
+    "progressiveUnpruningA": 60,
+    "progressiveUnpruningB": 1.2,
+    "progressiveUnpruningEnable": "false",
+    "progressiveUnpruningKInit": 4,
+    "progressiveUnpruningT": 40,
+    "rollout_depth": 12,
+    "safe_place_method": "SAFE_PLACE_DEFAULT",
+    "uctBias": 0,
+    "uct_method": "UCT_UCB1"
+}

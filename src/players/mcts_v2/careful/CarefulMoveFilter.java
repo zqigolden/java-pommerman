@@ -1,4 +1,4 @@
-package players.careful;
+package players.mcts_v2.careful;
 
 
 import core.GameState;

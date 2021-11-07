@@ -1,8 +1,7 @@
-package players.mcts_v2.mcts;
+package players.mcts_v2;
 
 import core.GameState;
 import players.Player;
-import players.careful.CarefulMoveFilter;
 import players.optimisers.ParameterizedPlayer;
 import utils.ElapsedCpuTimer;
 import utils.Types;

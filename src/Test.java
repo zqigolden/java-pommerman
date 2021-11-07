@@ -1,7 +1,7 @@
 import core.Game;
 import players.*;
-import players.mcts_v2.mcts.MCTSParams_V2;
-import players.mcts_v2.mcts.MCTSPlayer_V2;
+import players.mcts_v2.MCTSParams_V2;
+import players.mcts_v2.MCTSPlayer_V2;
 import utils.Types;
 import players.rhea.utils.Constants;
 import players.mcts.MCTSPlayer;
