@@ -4,7 +4,7 @@ import os
 
 json_data:dict = json.load(open(sys.argv[1]))
 
-java_cmds = [f'java -jar out/eval/java-pommerman.jar {0} {10} {4} {-1} {0} {7} {0} {5}']
+java_cmds = [f'java -jar out/eval/java-pommerman.jar {0} {20} {5} {-1} {0} {7} {0} {5}']
 java_cmds.append(json_data.get("num_iterations", 200))
 java_cmds.append(json_data.get("rollout_depth", 12))
 java_cmds.append(json_data.get("uct_method", "UCT_UCB1"))

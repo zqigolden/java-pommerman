@@ -49,3 +49,17 @@ for t, k, a, b in product(T, Kinit, A, B):
     data['progressiveUnpruningA'] = a
     data['progressiveUnpruningB'] = b
     json.dump(data, open(f'configs/pruning_{t}_{k}_{a}_{b}.json', 'w'), indent=4)
+
+
+with open("configs/default.json") as f:
+    data = json.load(f)
+data['num_iterations'] = 300
+data['uctBias'] = 0.1
+data["progressiveUnpruningEnable"] = 'true'
+for data['rollout_depth'] in [14, 16, 18]:
+    for t, k ,a, b in [(20, 2, 40, 1.2), (30, 3, 50, 1.3), (30, 4, 60, 1.3)]:
+        data['progressiveUnpruningT'] = t
+        data['progressiveUnpruningKInit'] = k
+        data['progressiveUnpruningA'] = a
+        data['progressiveUnpruningB'] = b
+        json.dump(data, open(f'configs/best_{data["rollout_depth"]}_{t}_{k}_{a}_{b}.json', 'w'), indent=4)
